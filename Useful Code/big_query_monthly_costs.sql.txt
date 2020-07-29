@@ -1,0 +1,19 @@
+select 
+  query_initiator as user,
+  extract(year from query_timestamp) as year,
+  extract(month from query_timestamp) as month,
+  round(sum(cost_estimate_pounds),2) as monthlyCost
+from `data-engineering-prod.logs_bigquery.data_access_friendly`
+
+-- where lower(query_initiator) in ('andrew.morris@ovoenergy.com', 'andrew.mills@ovoenergy.com', 'beth.rothwell@ovoenergy.com', 'luke.johnson@ovoenergy.com', 'tristan.crudge@ovoenergy.com', 'james.freeman@ovoenergy.com')
+--   and 
+WHERE extract(year from query_timestamp) = 2020 and lower(query_initiator) = 'jacob.macmillan@ovoenergy.com'
+group by 
+  query_initiator
+  ,year
+  ,month
+order by 
+--   query_initiator
+--   ,year
+--   ,month
+round(sum(cost_estimate_pounds),2) DESC
